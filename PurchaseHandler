@@ -1,0 +1,40 @@
+objects = {}
+wait(2)
+
+script.Parent:WaitForChild("Buttons")
+ for i,v in pairs(script.Parent.Buttons:GetChildren()) do
+local object = script.Parent.Purchases:FindFirstChild(v.Object.Value)
+ if object ~= nil then
+ objects[object.Name] = object:Clone()
+ object:Destroy()
+else
+ print("Button "..v.Name.." is missing its object and has been removed.")
+  v.Head.CanCollide = false
+  v.Head.Transparency = 1
+end
+ 
+v.Head.Touched:connect(function(hit)
+local player = game.Players:GetPlayerFromCharcter(hit.Parent)
+ if v.Head.CanCollide == true then
+  if player ~= nil then
+   if script.Parent.Owner.Value == player then
+    if hit.Parent:FindFirstChild("Humanoid") then
+     if hit.Parent.Humanoid.Health > 0 then
+      local cashmoney = game.ServerStorage.MoneyStorage:FindFirstChild(player.Name)
+       if cashmoney.Value ~= nil then
+        if cashmoney.Value >= v.Price.Value then
+         cashmoney.Value = cashmoney.Value - v.Prive.Value
+         objects[v.Object.Value].Parent = script.Parent.PurchasedObjects
+                     end
+                   end
+                 end
+               end
+             end
+            end
+           end
+         end
+       end)
+         
+         
+   
+ 
